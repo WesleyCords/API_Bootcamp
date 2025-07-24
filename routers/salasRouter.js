@@ -2,12 +2,18 @@ import express from "express";
 
 const router = express.Router();
 
-router.get('/', (req, res, next) => {
-    try {
-        res.send('HCGEOUUUUUUU')
-    } catch(error) {
-        next(error)
-    }
+router.get('/livres', (req, res, next) => {
+    const sql = `
+        
+    `
+});
+
+router.get('/ocupadas', async (req, res, next) => {
+
+});
+
+router.post('/', (req, res, next) => {
+
 });
 
 export default router;

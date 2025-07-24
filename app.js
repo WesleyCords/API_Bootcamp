@@ -16,7 +16,7 @@ app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 
 //ROTAS
-app.use('/users', usersRouter);
+app.use('/usuarios', usersRouter);
 app.use('/salas', salasRouter);
 app.use('/horarios', horariosRouter);
 app.use('/reservas', reservasRouter);
