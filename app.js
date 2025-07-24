@@ -1,6 +1,10 @@
 //IMPOORTAÇÕES
 import express from 'express';
 import dotenv from 'dotenv';
+import usersRouter from './routers/usersRouter.js';
+import salasRouter from './routers/salasRouter.js';
+import horariosRouter from './routers/horariosRouter.js';
+import reservasRouter from  './routers/reservasRouter.js';
 
 //CONFIGURAÇÕES
 dotenv.config()
@@ -12,9 +16,10 @@ app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 
 //ROTAS
-app.get('/', (req, res) => {
-    res.send('API TESTANDO!')
-})
+app.use('/users', usersRouter);
+app.use('/salas', salasRouter);
+app.use('/horarios', horariosRouter);
+app.use('/reservas', reservasRouter);
 
 // Tratamento de Erros
 app.use((erro, req, res, next) => {
