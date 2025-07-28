@@ -1,31 +1,104 @@
-import { getUserID } from "../controllers/usersController.js";
-import { pool } from "../databases.js"
+import pool from '../config/databases.js'
 
-export const listaUser = async id => {
+const register = async (nome, email, senha) => {
+    const sql = 'INSERT INTO usuarios (nome, email, senha_hash) VALUES (?, ?, ?)';
+    const [rows] = await pool.query(sql, [nome, email, senha])
+    const userID = rows.insertId;
+    const [result] = await pool.query('SELECT * FROM usuarios WHERE id = ?', [userID]);
+    return result[0]
+};
+
+const checkAccountByEmail = async email => {
+    const sql = 'SELECT * FROM usuarios WHERE email = ?'
+    const [result] = await pool.query(sql, [email]);
+    return result[0]
+};
+
+const findUserByID = async userID => {
     const sql = 'SELECT * FROM usuarios WHERE id = ?';
-    const [rows] = await pool.query(sql, [id]);
-    return rows[0];
+    const [result] = await pool.query(sql, [userID]);
+    return result[0]
 };
 
-export const listaReserva = async id => {
-    const sql = `SELECT r.id AS reserva_id,
-        s.nome AS sala,
-        r.data,
-        h.inicio,
-        h.fim,
-        r.created_at
-        FROM reservas r
-        JOIN salas s ON s.id = r.sala_id
-        JOIN horarios h ON h.id = r.horario_id
-        WHERE r.usuario_id = ?
-        ORDER BY r.data ASC, h.inicio;`
-        const [rows] = await pool.query(sql, [id]);
-        return rows[0];
+const findReservations = async userID => {
+    const sql = `SELECT
+    r.id AS id_reserva,
+    u.nome AS nome_usuario,
+    s.nome AS nome_sala,
+    h.inicio AS horario_inicio,
+    h.fim AS horario_fim,
+    r.data AS data_reserva,
+    s.descricao AS descricao_sala
+    FROM
+        reservas AS r
+    JOIN
+        usuarios AS u ON r.usuario_id = u.id
+    JOIN
+        salas AS s ON r.sala_id = s.id
+    JOIN
+        horarios AS h ON r.horario_id = h.id
+    WHERE
+        u.id = ?;`
+    const [result] = await pool.query(sql, [userID]);
+    return result
 };
 
-export const criarUsuario = async (nome, email, senha_hash) => {
-    const sql = `INSERT INTO usuarios (nome, email, senha_hash) VALUES (?, ?, ?)`
-    const [criado] = await pool.query(sql, [nome, email, senha_hash]);
-    const id = criado.insertId;
-    return listaUser(id)
+const checkReservationExists = async (salaID, horarioID, data) => {
+    const sql = `
+    SELECT
+        COUNT(*) AS existe_reserva
+    FROM
+        reservas
+    WHERE
+        sala_id = ? AND       
+        horario_id = ? AND     
+        data = ?
+    `
+    const [result] = await pool.query(sql, [salaID, horarioID, data])
 };
+
+const createReservation = async (userID, salaID, horarioID, data) => {
+    const sql = `
+    INSERT INTO 
+        reservas (usuario_id, sala_id, horario_id, data)
+    VALUES ( ?, ?, ?, ? )
+    `;
+    const [result] = await pool.query(sql, [userID, salaID, horarioID, data]);
+    return result[0]
+};
+
+const cancelReservation = async (userID, reservaID) => {
+    const sql = `
+    DELETE FROM 
+        reservas
+    WHERE 
+    id = ? AND 
+    usuario_id = ?
+    `
+    const [result] = await pool.query(sql, [reservaID, userID])
+    return result
+};
+
+const updateReservation = async (userID, reservaID, horarioID) => {
+    const sql = `
+    UPDATE reservas
+    SET
+        horario_id = ?
+    WHERE
+        id = ? AND 
+        usuario_id = ?
+    `
+    const [result] = await pool.query(sql, [horarioID, reservaID, userID])
+    return result
+};
+
+export default {
+    checkAccountByEmail,
+    register,
+    findUserByID,
+    findReservations,
+    createReservation,
+    checkReservationExists,
+    cancelReservation,
+    updateReservation,
+}

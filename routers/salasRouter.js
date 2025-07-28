@@ -1,19 +1,11 @@
-import express from "express";
+import { Router } from "express";
+import salasController from "../controllers/salasController.js";
 
-const router = express.Router();
+const router = Router();
 
-router.get('/livres', (req, res, next) => {
-    const sql = `
-        
-    `
-});
-
-router.get('/ocupadas', async (req, res, next) => {
-
-});
-
-router.post('/', (req, res, next) => {
-
-});
+router.get('/', salasController.getRoomByCapacity) // Deve informar o parâmetro "Capacidade" .../?capacidade=20
+router.get('/:id', salasController.getRoomByID);
+router.get('/:id/horarios', salasController.getHorariosRoomByID);
+router.get('/:id/disponibilidade', salasController.getRoomAvailable) // Deve informar o parâmetro "Data" .../?data='2025-07-28' (ano-mes-dia)
 
 export default router;
