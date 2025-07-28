@@ -1,0 +1,31 @@
+import swaggerJSDoc from "swagger-jsdoc";
+import swaggerUi from "swagger-ui-express";
+
+const options = {
+  definition: {
+    openapi: "3.0.0", 
+    info: {
+      title: "API de Gerenciamento de Usuários e Reservas",
+      version: "1.0.0",
+      description: "Documentação completa da API para registro, login de usuários e gerenciamento de suas reservas de salas.",
+    },
+    servers: [
+      {
+        url: "http://localhost:8081/api", 
+        description: "Servidor de Desenvolvimento",
+      },
+    ],
+  },
+  apis: ['./routers/usersRouter.js', './routers/salasRouter.js'], 
+};
+
+const specs = swaggerJSDoc(options);
+
+console.log('Swagger Specs Gerado:', JSON.stringify(specs, null, 2));
+
+export {
+  swaggerUi,
+  specs
+}
+
+
