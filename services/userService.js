@@ -1,9 +1,10 @@
 import userModel from '../models/usersModel.js';
 import roomModel from '../models/salasModel.js';
+import bcrypt from 'bcryptjs';
 
 const register = async (nome, email, senha) => {
     const existAccount = await userModel.checkAccountByEmail(email);
-    if(existAccount.length > 0) {
+    if(existAccount) {
         const error = new Error(
             'Esse email já está em uso.'
         );
@@ -11,13 +12,15 @@ const register = async (nome, email, senha) => {
         error.status = "falha"
         throw error
     }
-    const newUser = await userModel.register(nome, email, senha)
+    const senhaHash = await bcrypt.hash(senha, 12)
+    const newUser = await userModel.register(nome, email, senhaHash)
     return newUser;
 };
 
 const login = async (email, senha) => {
     const user = await userModel.checkAccountByEmail(email);
-    if(!user || user.senha_hash !== senha) {
+    const match = await bcrypt.compare(senha, user.senha_hash)
+    if(!user || !match) {
         const error = new Error(
             'Informações inválidas.'
         );

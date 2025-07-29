@@ -38,6 +38,30 @@ const router = Router();
 
 /**
  * @swagger
+ * /usuarios/login:
+ *   post:
+ *     summary: Fazer login
+ *     tags: [Usuários]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               email:
+ *                 type: string
+ *               senha:
+ *                 type: string
+ *     responses:
+ *       201:
+ *         description: Usuario logado com sucesso
+ *       409:
+ *         description: Credencias estão erradas
+ */
+
+/**
+ * @swagger
  * /usuarios/{id}:
  *   get:
  *     summary: Obter perfil do usuário

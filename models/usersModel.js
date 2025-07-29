@@ -1,8 +1,8 @@
 import pool from '../config/databases.js'
 
-const register = async (nome, email, senha) => {
+const register = async (nome, email, senhaHash) => {
     const sql = 'INSERT INTO usuarios (nome, email, senha_hash) VALUES (?, ?, ?)';
-    const [rows] = await pool.query(sql, [nome, email, senha])
+    const [rows] = await pool.query(sql, [nome, email, senhaHash])
     const userID = rows.insertId;
     const [result] = await pool.query('SELECT * FROM usuarios WHERE id = ?', [userID]);
     return result[0]
