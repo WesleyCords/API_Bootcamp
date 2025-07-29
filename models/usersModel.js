@@ -55,6 +55,7 @@ const checkReservationExists = async (salaID, horarioID, data) => {
         data = ?
     `
     const [result] = await pool.query(sql, [salaID, horarioID, data])
+    return result[0].existe_reserva
 };
 
 const createReservation = async (userID, salaID, horarioID, data) => {
@@ -92,6 +93,19 @@ const updateReservation = async (userID, reservaID, horarioID) => {
     return result
 };
 
+const getHorarioByID = async salaID => {
+    const sql = `
+    SELECT
+        COUNT(*) AS total_horarios_definidos
+    FROM
+        horarios
+    WHERE
+        sala_id = ?;
+    `;
+    const [result] = await pool.query(sql, salaID);
+    return result
+};
+
 export default {
     checkAccountByEmail,
     register,
@@ -101,4 +115,5 @@ export default {
     checkReservationExists,
     cancelReservation,
     updateReservation,
+    getHorarioByID
 }

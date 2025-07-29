@@ -68,8 +68,8 @@ const createReservation = async (userID, salaID, horarioID, data) => {
         error.status = "falha";
         throw error
     }
-    const horario = await roomModel.getHorarioByID(horarioID);
-    if(!horario || horario.sala_id !== salaID) {
+    const horario = await roomModel.getHorarioByID(salaID);
+    if(!horario) {
         const error = new Error(
             'Horarios não encontrado para essa sala.'
         )
@@ -82,7 +82,8 @@ const createReservation = async (userID, salaID, horarioID, data) => {
         horarioID,
         data
     );
-    if(existReserva) {
+    console.log(existReserva)
+    if(existReserva !== 0) {
         const error = new Error(
             'Já existe reserva para essa data, horário e sala.'
         )
