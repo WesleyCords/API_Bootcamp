@@ -1,35 +1,5 @@
 import userService from "../services/userService.js";
 
-const register = async (req, res, next) => {
-  try {
-    const { nome, email, senha } = req.body;
-    const newUser = await userService.register(nome, email, senha);
-    res.status(201).json({
-      status: "sucesso",
-      data: {
-        newUser,
-      },
-    });
-  } catch (error) {
-    next(error);
-  }
-};
-
-const login = async (req, res, next) => {
-  try {
-    const { email, senha } = req.body;
-    const userLogado = await userService.login(email, senha);
-    res.status(200).json({
-      status: "sucesso",
-      data: {
-        userLogado,
-      },
-    });
-  } catch (error) {
-    next(error);
-  }
-};
-
 const getUserByID = async (req, res, next) => {
   try {
     const userID = req.params.id;
@@ -118,8 +88,6 @@ const attReserva = async (req, res, next) => {
 };
 
 export default {
-  register,
-  login,
   getUserByID,
   getReservations,
   createReservation,

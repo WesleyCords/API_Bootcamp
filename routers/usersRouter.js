@@ -1,7 +1,21 @@
 import { Router } from "express";
 import usersController from "../controllers/usersController.js";
+import authController from "../controllers/authController.js";
+import checkedToken from "../middlewares/checkedToken.js";
 
 const router = Router();
+
+router.post('/', authController.register);
+
+router.use(checkedToken)
+
+router.get('/:id', usersController.getUserByID);
+router.get('/:id/reservas', usersController.getReservations);
+router.post('/:id/reservas', usersController.createReservation);
+router.delete('/:userID/reservas/:reservaID', usersController.deleteReservation);
+router.put('/:userID/reservas/:reservaID', usersController.attReserva);
+
+export default router;
 
 /**
  * @swagger
@@ -34,30 +48,6 @@ const router = Router();
  *         description: Usuário criado com sucesso
  *       409:
  *         description: Email já está em uso
- */
-
-/**
- * @swagger
- * /usuarios/login:
- *   post:
- *     summary: Fazer login
- *     tags: [Usuários]
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               email:
- *                 type: string
- *               senha:
- *                 type: string
- *     responses:
- *       201:
- *         description: Usuario logado com sucesso
- *       409:
- *         description: Credencias estão erradas
  */
 
 /**
@@ -187,14 +177,3 @@ const router = Router();
  *       401:
  *         description: Não autorizado
  */
-
-router.post('/', usersController.register);
-router.post('/login', usersController.login);
-
-router.get('/:id', usersController.getUserByID);
-router.get('/:id/reservas', usersController.getReservations);
-router.post('/:id/reservas', usersController.createReservation);
-router.delete('/:userID/reservas/:reservaID', usersController.deleteReservation);
-router.put('/:userID/reservas/:reservaID', usersController.attReserva);
-
-export default router;

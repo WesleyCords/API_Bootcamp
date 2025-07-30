@@ -10,6 +10,7 @@ import { specs, swaggerUi } from './swagger.js';
 // Importações de ROTAS
 import userRouter from './routers/usersRouter.js'
 import salaRouter from './routers/salasRouter.js'
+import authRouter from './routers/authRouter.js';
 
 // Instância
 const app = express();
@@ -22,6 +23,7 @@ app.use(json());
 
 
 // Rotas!
+app.use('/api/auth', authRouter);
 app.use('/api/usuarios', userRouter);
 app.use('/api/salas', salaRouter);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs))

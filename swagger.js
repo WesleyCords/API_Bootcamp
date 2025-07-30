@@ -16,12 +16,10 @@ const options = {
       },
     ],
   },
-  apis: ['./routers/usersRouter.js', './routers/salasRouter.js'], 
+  apis: ['./routers/*.js'], 
 };
 
 const specs = swaggerJSDoc(options);
-
-console.log('Swagger Specs Gerado:', JSON.stringify(specs, null, 2));
 
 export {
   swaggerUi,

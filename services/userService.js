@@ -1,35 +1,5 @@
 import userModel from '../models/usersModel.js';
 import roomModel from '../models/salasModel.js';
-import bcrypt from 'bcryptjs';
-
-const register = async (nome, email, senha) => {
-    const existAccount = await userModel.checkAccountByEmail(email);
-    if(existAccount) {
-        const error = new Error(
-            'Esse email já está em uso.'
-        );
-        error.statusCode = 400;
-        error.status = "falha"
-        throw error
-    }
-    const senhaHash = await bcrypt.hash(senha, 12)
-    const newUser = await userModel.register(nome, email, senhaHash)
-    return newUser;
-};
-
-const login = async (email, senha) => {
-    const user = await userModel.checkAccountByEmail(email);
-    const match = await bcrypt.compare(senha, user.senha_hash)
-    if(!user || !match) {
-        const error = new Error(
-            'Informações inválidas.'
-        );
-        error.statusCode = 400;
-        error.status = "falha";
-        throw error
-    }
-    return { user }
-};
 
 const getUserByID = async userID => {
     const user = await userModel.findUserByID(userID);
@@ -119,8 +89,6 @@ const attReserva = async (userID, reservaID, horario_id) => {
 };
 
 export default {
-    register,
-    login,
     getUserByID,
     getReservations,
     createReservation,
