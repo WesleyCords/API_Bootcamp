@@ -15,9 +15,24 @@ const options = {
         description: "Servidor de Desenvolvimento",
       },
     ],
-  },
+    components: {
+      securitySchemes: {
+        BearerAuth: {
+          type: "http",
+          scheme: "bearer",
+          bearerFormat: "JWT",
+          description: "Token JWT para autenticação. Forneça o token no formato 'Bearer {token}'",
+        }
+      },
+    },
+    security: [
+        {
+          BearerAuth: []
+        }
+      ],
+    },
   apis: ['./routers/*.js'], 
-};
+}
 
 const specs = swaggerJSDoc(options);
 

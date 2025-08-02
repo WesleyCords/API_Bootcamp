@@ -40,6 +40,8 @@ export default router;
  *         description: Lista de salas
  *       401:
  *         description: Não autorizado
+ *       404:
+ *         description: Nenhuma sala encontrada com a capacidade informada
  */
 
 /**
@@ -62,6 +64,8 @@ export default router;
  *         description: Detalhes da sala
  *       401:
  *         description: Não autorizado
+ *       404:
+ *        description: Sala não encontrada
  */
 
 /**
@@ -84,6 +88,8 @@ export default router;
  *         description: Lista de horários
  *       401:
  *         description: Não autorizado
+ *       404:
+ *         description: Sala não encontrada
  */
 
 /**
@@ -113,4 +119,6 @@ export default router;
  *         description: Horários disponíveis
  *       401:
  *         description: Não autorizado
+ *       400:
+ *         description: Parâmetro "data" não informado
  */

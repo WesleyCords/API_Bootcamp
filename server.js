@@ -6,6 +6,8 @@ dotenv.config();
 import express, {json} from 'express';
 import morgan from 'morgan';
 import { specs, swaggerUi } from './swagger.js';
+import { connectDB } from './config/databases.js';
+import { sequelize, Usuario, Sala, Horario, Reserva } from './models/index.js';
 
 // Importações de ROTAS
 import userRouter from './routers/usersRouter.js'
@@ -31,6 +33,12 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs))
 // Rodando server
 const PORT = process.env.PORT || 8081;
 
-app.listen(8081, () => {
-console.log(`Servidor rodando na port ${PORT}...`)
-});
+const startServer = async () => {
+    await connectDB();
+    app.listen(PORT, () => {
+        console.log(`Servidor rodando na porta ${PORT}`);
+    });
+}
+startServer().catch(error => {
+    console.error('Erro ao iniciar o servidor:', error);
+})

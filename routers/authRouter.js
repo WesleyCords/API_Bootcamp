@@ -48,6 +48,6 @@ export default router;
  *                   properties:
  *                     user:
  *                       type: object
- *       409:
+ *       401:
  *         description: Credencias estão erradas
  */

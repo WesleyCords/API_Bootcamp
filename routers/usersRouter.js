@@ -5,22 +5,22 @@ import checkedToken from "../middlewares/checkedToken.js";
 
 const router = Router();
 
-router.post('/', authController.register);
+router.post("/", authController.register);
 
-router.use(checkedToken)
+router.use(checkedToken);
 
-router.get('/:id', usersController.getUserByID);
-router.get('/:id/reservas', usersController.getReservations);
-router.post('/:id/reservas', usersController.createReservation);
-router.delete('/:userID/reservas/:reservaID', usersController.deleteReservation);
-router.put('/:userID/reservas/:reservaID', usersController.attReserva);
+router.get("/:id", usersController.getUserByID);
+router.get("/:id/reservas", usersController.getReservations);
+router.post("/:id/reservas", usersController.createReservation);
+router.delete("/:userID/reservas/:reservaID", usersController.deleteReservation);
+router.put("/:userID/reservas/:reservaID", usersController.attReserva);
 
 export default router;
 
 /**
  * @swagger
- * tags:
- *   name: Usuários
+ * tags :
+ *   -name: Usuários
  *   description: Endpoints de usuários e reservas
  */
 
@@ -30,6 +30,8 @@ export default router;
  *   post:
  *     summary: Registrar novo usuário
  *     tags: [Usuários]
+ *     security:
+ *       - bearerAuth: []
  *     requestBody:
  *       required: true
  *       content:
@@ -122,6 +124,7 @@ export default router;
  *         description: Não autorizado
  */
 
+
 /**
  * @swagger
  * /usuarios/{id}/reservas/{reservationId}:
@@ -176,4 +179,6 @@ export default router;
  *         description: Reserva atualizada
  *       401:
  *         description: Não autorizado
+ *       404:
+ *         description: Usuário ou reserva não encontrada
  */
