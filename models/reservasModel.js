@@ -1,5 +1,5 @@
 import { DataTypes, Model } from "sequelize";
-import {sequelize} from "../config/databases.js";  
+import { sequelize } from "../config/databases.js";  
 
 class Reserva extends Model {}
 
@@ -10,7 +10,7 @@ Reserva.init(
       primaryKey: true,
       autoIncrement: true,
     },
-    usuario_id: {
+    usuarioId: {
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
@@ -18,7 +18,7 @@ Reserva.init(
         key: "id",
       },
     },
-    sala_id: {
+    salaId: {
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
@@ -26,7 +26,7 @@ Reserva.init(
         key: "id",
       },
     },
-    horario_id: {
+    horarioId: {
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
@@ -35,16 +35,24 @@ Reserva.init(
       },
     },
     data: {
-      type: DataTypes.DATEONLY, // Apenas a data, sem hora
+      type: DataTypes.DATEONLY, 
       allowNull: false,
+    },
+    createdAt: {
+      type: DataTypes.DATE,
+      allowNull: false,
+      field: "created_at",
+    },
+    updatedAt: { 
+      type: DataTypes.DATE,
+      allowNull: false,
+      field: "updated_at",
     },
   },
   {
     sequelize,
     modelName: "reservas",
     timestamps: true,
-    createdAt: "created_at",
-    updatedAt: "updated_at",
     indexes: [
       {
         unique: true,

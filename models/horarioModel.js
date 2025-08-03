@@ -1,5 +1,5 @@
 import { DataTypes, Model } from "sequelize";
-import {sequelize} from "../config/databases.js";
+import { sequelize } from "../config/databases.js";
 
 class Horario extends Model {}
 
@@ -10,7 +10,7 @@ Horario.init(
       primaryKey: true,
       autoIncrement: true,
     },
-    sala_id: {
+    salaId: {
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
@@ -26,13 +26,21 @@ Horario.init(
       type: DataTypes.TIME,
       allowNull: false,
     },
+    createdAt: {
+      type: DataTypes.DATE,
+      allowNull: false,
+      field: "created_at",
+    },
+    updatedAt: {  
+      type: DataTypes.DATE,
+      allowNull: false,
+      field: "updated_at",
+    },
   },
   {
     sequelize,
     modelName: "horarios",
     timestamps: true,
-    createdAt: "created_at",
-    updatedAt: "updated_at",
     validate: {
       inicioAntesDoFim() {
         if (this.inicio >= this.fim) {

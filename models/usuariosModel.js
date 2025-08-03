@@ -1,5 +1,5 @@
 import { DataTypes, Model } from "sequelize";
-import {sequelize} from "../config/databases.js";
+import { sequelize } from "../config/databases.js";
 
 class Usuario extends Model {}
 
@@ -20,17 +20,20 @@ Usuario.init(
       allowNull: false,
       unique: true,
     },
-    senha_hash: {
+    senhaHash: {
       type: DataTypes.STRING(255),
       allowNull: false,
     },
+    createdAt: {
+      type: DataTypes.DATE,
+      allowNull: false,
+      fileds: "created_at"
+    }
   },
   {
     sequelize,
     modelName: "usuarios",
-    timestamps: true,
-    createdAt: "created_at",
-    updatedAt: "updated_at",
+    timestamps: true
   }
 );
 

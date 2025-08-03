@@ -1,5 +1,5 @@
 import { DataTypes, Model } from "sequelize";
-import {sequelize} from "../config/databases.js";
+import { sequelize } from "../config/databases.js";
 
 class Sala extends Model {}
 
@@ -20,19 +20,27 @@ Sala.init({
         type: DataTypes.INTEGER,
         allowNull: false,
         validate: {
-          min: 1, // Adiciona validação para capacidade > 0
+          min: 1
         },
       },
       recursos: {
         type: DataTypes.TEXT,
       },
+      createdAt: {
+        type: DataTypes.DATE,
+        allowNull: false,
+        field: "created_at",
+      },
+      updatedAt: {
+        type: DataTypes.DATE,
+        allowNull: false,
+        field: "updated_at",
+      },
     },
     {
       sequelize,
       modelName: "salas",
-      timestamps: true,
-      createdAt: "created_at",
-      updatedAt: "updated_at",
+      timestamps: true
     })
 
 export default Sala;

@@ -28,7 +28,7 @@ const getReservations = async userID => {
     }
     const reservations = await Reserva.findAll({
         where: {
-            usuario_id: userID,
+            usuarioId: userID,
         },
         include: [
             {
@@ -46,7 +46,7 @@ const getReservations = async userID => {
         ],
         order: [['data', 'ASC'], ['horario', 'inicio']]
     })
-    return reserva;
+    return reservations;
 };
 
 const createReservation = async (userID, salaID, horarioID, data) => {
@@ -65,7 +65,7 @@ const createReservation = async (userID, salaID, horarioID, data) => {
     }
     const horario = await Horario.findOne({
         where: {
-            sala_id: salaID,
+            salaId: salaID,
         }
     });
     console.log(horario)
@@ -79,8 +79,8 @@ const createReservation = async (userID, salaID, horarioID, data) => {
     }
     const existReserva = await Reserva.findOne({
         where: {
-            sala_id: salaID,
-            horario_id: horarioID,
+            salaId: salaID,
+            horarioId: horarioID,
             data: data
         },
         attributes: ['id'] 
@@ -94,9 +94,9 @@ const createReservation = async (userID, salaID, horarioID, data) => {
         throw error
     }
     const reservation = await Reserva.create({
-            usuario_id: userID,
-            sala_id: salaID,
-            horario_id: horarioID,
+            usuarioID: userID,
+            salaID: salaID,
+            horarioID: horarioID,
             data: data
         });
     return reservation
@@ -106,7 +106,7 @@ const deleteReservation = async (userID, reservaID) => {
     const reservaCancel = await Reserva.destroy({
         where: {
             id: reservaID,
-            usuario_id: userID,
+            usuarioId: userID,
         }
     });
     return reservaCancel;
@@ -128,7 +128,7 @@ const attReserva = async (userID, reservaID, horario_id) => {
     }
     const reservaOcupada = await Reserva.findOne({
         where: {
-            horario_id: horario_id,
+            horarioId: horario_id,
         }
     });
     if(reservaOcupada) {
@@ -140,7 +140,7 @@ const attReserva = async (userID, reservaID, horario_id) => {
         throw error
     }
     const reservaAtualizada = Reserva.update(
-        { horario_id: horario_id },
+        { horarioId: horario_id },
         { where: { id: reservaID, usuario_id: userID } }
     );
     return reservaAtualizada;

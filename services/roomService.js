@@ -1,6 +1,5 @@
 import Sala from "../models/salasModel.js";
 import Horarios from "../models/horarioModel.js";
-import Reserva from "../models/reservasModel.js";
 import { Op } from "sequelize";
 import { sequelize } from "../config/databases.js";
 
@@ -52,7 +51,7 @@ const getHorariosRoomByID = async (salaID) => {
   }
   const horarios = await Horarios.findAll({
     where: {
-      sala_Id: salaID,
+      salaId: salaID,
     },
   });
   return horarios;
@@ -78,9 +77,9 @@ const getRoomAvailable = async (salaID, data) => {
     FROM
       horarios AS h
     LEFT JOIN
-      reservas AS r ON h.id = r.horario_id AND h.sala_id = r.sala_id AND r.data = :dataParam
+      reservas AS r ON h.id = r.horarioId AND h.salaId = r.salaId AND r.data = :dataParam
     WHERE
-      h.sala_id = :salaIdParam
+      h.salaId = :salaIdParam
       AND r.id IS NULL
     ORDER BY
       h.inicio;
